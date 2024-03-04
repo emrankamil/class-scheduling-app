@@ -1,0 +1,10 @@
+django
+pillow
+djangorestframework
+pyyaml
+requests
+django-cors-headers
+django-environ
+drf_social_oauth2
+tinytag
+psycopg2-binary
