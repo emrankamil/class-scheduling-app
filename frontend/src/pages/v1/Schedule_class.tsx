@@ -1,9 +1,15 @@
-import Department from "../../components/Department"
+// import Box from "../../components/Box"
+// import Department from "../../components/Department.j"
+import ScheduleTable from './ScheduleTable'
 
 const Schedule_class = () =>{
     return (
         <div>
-            <Department/>
+            {/* <Department/> */}
+            {/* <ResultTable/> */}
+            {/* <Box/> */}
+            <ScheduleTable/>
+
         </div>
     )
 }
