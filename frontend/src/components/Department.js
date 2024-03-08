@@ -9,7 +9,7 @@ import {FormLabel,FormControlLabel, FormControl, FormGroup, Grid, Checkbox} from
 
 export default function Department() {
 
-    const departmentsData_url = 'http://localhost:8000/api/departments_data/'
+    const departmentsData_url = "http://localhost:8000/departments_config/departments_data/"
 
     const [disableInput, setDisableInput] = useState(true)
     const [departmentData, setDepartmentData] = useState(null)
@@ -35,12 +35,13 @@ export default function Department() {
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            // console.log(response.json())
             const data = await response.json();
+            // console.log(response.json())
       
             setDepartmentData(data.departments);
             setInstructorData(data.instructors);
             setCourseData(data.courses);
+            console.log(departmentData)
 
           } catch (error) {
             console.error('Error fetching data:', error);
@@ -65,7 +66,6 @@ export default function Department() {
 
   return (
     <div className='flex flex-col gap-4 w-5/6 mx-auto '>
-        <div>Hello</div>
         {departmentData.map((department, index)=>{
 
             const { name, courses, instructors, assigned_days, morning_start_time, morning_end_time, afternoon_start_time, afternoon_end_time } = department;
