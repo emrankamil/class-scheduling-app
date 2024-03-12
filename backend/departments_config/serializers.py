@@ -9,6 +9,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
             'courses',
             'instructors',
             'assigned_days',
+            'rooms',
             'morning_start_time',
             'morning_end_time', 
             'afternoon_start_time',
@@ -28,7 +29,6 @@ class InstructorSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
-            'courses',
         ]
 
 # class ScheduleUpdateSerializer(serializers.ModelSerializer):

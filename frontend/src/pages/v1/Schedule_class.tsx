@@ -1,11 +1,11 @@
 // import Box from "../../components/Box"
-import Department from "../../components/Department.js"
+import AllDepartments from "../../components/AllDepartments"
 // import ScheduleTable from './ScheduleTable'
 
 const Schedule_class = () =>{
     return (
         <div>
-            <Department/>
+            <AllDepartments/>
             {/* <ResultTable/> */}
             {/* <Box/> */}
             {/* <ScheduleTable/> */}

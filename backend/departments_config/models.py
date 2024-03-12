@@ -10,7 +10,6 @@ class Course(models.Model):
 
 class Instructor(models.Model):
     name=models.CharField(max_length=255)
-    courses = models.ManyToManyField(Course, blank=True, related_name='instructors')
 
     def __str__(self):
         return self.name
@@ -20,6 +19,7 @@ class Department(models.Model):
     courses = models.ManyToManyField(Course,  blank=True, related_name='departments')
     instructors = models.ManyToManyField(Instructor, blank=True, related_name='departments')
     assigned_days = ArrayField(models.CharField(max_length=15), blank=True, default=list)
+    rooms=ArrayField(models.CharField(max_length=255), blank=True, default=list)
 
     morning_start_time = models.TimeField(auto_now_add=True)
     morning_end_time = models.TimeField(auto_now_add=True)

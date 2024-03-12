@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from django.db import transaction
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 from .models import Department
 from .models import Course
@@ -30,26 +32,52 @@ class ListDataApiView(APIView):
             'instructors': instructor_serializer.data
         })
 
-department_list_view = ListDataApiView.as_view()
+    def post(self, request, format=None):
 
-    # def post(self, request, format=None):
-    #     serializer = SnippetSerializer(data=request.data)
+        try:
+            with transaction.Atomic(using=None, savepoint=True, durable=True):
+                
+                course_data = request.data.get('courses', [])
+                instructor_data = request.data.get('instructors', [])
+                department_data = request.data.get('department', [])
 
-    #     department_serializer = DepartmentSerializer(departments)
-    #     course_serializer = CourseSerializer(courses)
-    #     instructor_serializer = InstructorSerializer(instructors)
+                course_serializer = CourseSerializer(data=course_data, many=True)
+                instructor_serializer = InstructorSerializer(data = instructor_data, many=True)
 
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                if course_serializer.is_valid() and instructor_serializer.is_valid():
+                    course_serializer.save()
+                    course_ids = [course['id'] for course in course_serializer.data]
 
+                    instructor_serializer.save()
+                    instructor_ids = [instructor['id'] for instructor in instructor_serializer.data]
+                    
+                    department_data['courses'] = course_ids
+                    department_data['instructors'] = instructor_ids
+                    department_serializer = DepartmentSerializer(data=department_data)
 
+                    if department_serializer.is_valid():
+                        department_serializer.save()
+                        return Response({'message': 'Data saved successfully.'}, status=status.HTTP_201_CREATED)
+                    else:
+                        return Response({'error': 'Validation failed.', 'department_errors': department_serializer.errors},
+                                        status=status.HTTP_400_BAD_REQUEST)
+                    
+                else:
+                    return Response({
+                        'error': 'Validation failed.',
+                        'department_errors': department_serializer.errors,
+                        'course_errors': course_serializer.errors,
+                        'instructor_errors': instructor_serializer.errors
+                    }, status=status.HTTP_400_BAD_REQUEST)
+        
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+department_list_create_view = ListDataApiView.as_view()
 
-class DepartmentListCreateApiView(generics.ListCreateAPIView):
-    queryset = Department.objects.all()
-    serializer_class = DepartmentSerializer
-
+# class DepartmentListCreateApiView(generics.ListCreateAPIView):
+#     queryset = Department.objects.all()
+#     serializer_class = DepartmentSerializer
 
 
 class DepartmentDetailApiView(generics.RetrieveAPIView):
@@ -142,3 +170,42 @@ class CourseDestroyApiView(generics.DestroyAPIView):
         super().perform_destroy(instance)
 
 course_destroy_view = CourseDestroyApiView.as_view()
+
+
+
+# {
+# "department": 
+#     {
+#         "name": "New Department",
+#         "courses": [],
+#         "instructors": [],
+#         "assigned_days": ["monday", "tuesday"],
+#         "rooms": ["12", "22"]
+#     }
+# ,
+# "instructors": [
+#     {
+#         "name": "Emran"
+#     },
+#     {
+#         "name": "Bereket Werku"
+#     },
+#     {
+#         "name": "Ayenew Alayenew"
+#     }
+# ],
+# "courses": [
+#     {
+#         "name": "Fundamentls Of Electronics",
+#         "credit_hour": "10"
+#     },
+#     {
+#         "name": "Circuit Design",
+#         "credit_hour": "7"
+#     },
+#     {
+#         "name": "Introduction to Python Programming",
+#         "credit_hour": "3"
+#     }
+# ]
+# }
