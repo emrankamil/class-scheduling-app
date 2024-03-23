@@ -1,3 +1,4 @@
+from datetime import time
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
@@ -16,15 +17,16 @@ class Instructor(models.Model):
 
 class Department(models.Model):
     name = models.CharField(max_length=255)
-    courses = models.ManyToManyField(Course,  blank=True, related_name='departments')
-    instructors = models.ManyToManyField(Instructor, blank=True, related_name='departments')
-    assigned_days = ArrayField(models.CharField(max_length=15), blank=True, default=list)
-    rooms=ArrayField(models.CharField(max_length=255), blank=True, default=list)
+    courses = models.ManyToManyField(Course, related_name='departments')
+    instructors = models.ManyToManyField(Instructor, related_name='departments')
+    assigned_days = ArrayField(models.CharField(max_length=15), default=list)
+    rooms=ArrayField(models.CharField(max_length=255), default=list)
 
-    morning_start_time = models.TimeField(auto_now_add=True)
-    morning_end_time = models.TimeField(auto_now_add=True)
-    afternoon_start_time = models.TimeField(auto_now_add=True)
-    afternoon_end_time = models.TimeField(auto_now_add=True)
+    morning_start_time = models.TimeField(default=time(0, 0))
+    morning_end_time = models.TimeField(default=time(0, 0))
+    afternoon_start_time = models.TimeField(default=time(0, 0))
+    afternoon_end_time = models.TimeField(default=time(0, 0))
 
     def __str__(self):
         return self.name
+

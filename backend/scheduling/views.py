@@ -4,11 +4,17 @@ from rest_framework import generics
 from .models import Schedule
 from .serializers import ScheduleSerializer
 
-class ScheduleListCreateApiView(generics.ListCreateAPIView):
+class ScheduleListApiView(generics.ListAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
 
-schedule_list_create_view = ScheduleListCreateApiView.as_view()
+schedule_list_view = ScheduleListApiView.as_view()
+
+class ScheduleCreateApiView(generics.CreateAPIView):
+    queryset = Schedule.objects.all()
+    serializer_class = ScheduleSerializer
+
+schedule_create_view = ScheduleCreateApiView.as_view()
 
 class ScheduleDetailApiView(generics.RetrieveAPIView):
     queryset = Schedule.objects.all()
