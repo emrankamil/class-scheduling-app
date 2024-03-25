@@ -1,7 +1,11 @@
 import React from 'react';
 import Box from '../../components/Box'
+import { useParams } from 'react-router-dom';
 
 const Timetable = () => {
+
+  const {id} = useParams()
+  
   return (
     <div className="grid grid-cols-6 gap-2 px-4 my-4">
       <div className="col-span-1 h-16 border-2 flex items-center justify-center">Time</div>
