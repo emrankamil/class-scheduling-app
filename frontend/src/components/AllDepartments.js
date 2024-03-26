@@ -3,7 +3,7 @@ import Department from './Department';
 
 export default function AllDepartments() {
 
-    const departmentsData_url = "http://localhost:8000/departments_config/departments_data/"
+    const departmentsData_url = "http://localhost:8000/api/departments_config/departments_data/"
 
     const [disableInput, setDisableInput] = useState(true)
     const [departmentData, setDepartmentData] = useState(null)

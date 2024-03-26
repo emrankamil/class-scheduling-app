@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.db import transaction
-from rest_framework import generics
+from rest_framework import generics, status, serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 
 from .models import Department
 from .models import Course
@@ -36,38 +35,34 @@ class ListDataApiView(APIView):
 
         try:
             with transaction.Atomic(using=None, savepoint=True, durable=True):
-                
                 course_data = request.data.get('courses', [])
                 instructor_data = request.data.get('instructors', [])
-                department_data = request.data.get('department', [])
-
+                department_data = request.data.get('departments', [])
                 course_serializer = CourseSerializer(data=course_data, many=True)
                 instructor_serializer = InstructorSerializer(data = instructor_data, many=True)
 
                 if course_serializer.is_valid() and instructor_serializer.is_valid():
                     course_serializer.save()
-                    course_ids = [course['id'] for course in course_serializer.data]
-
+                    course_ids = [course.get('id', 0) for course in course_serializer.data]
                     instructor_serializer.save()
-                    instructor_ids = [instructor['id'] for instructor in instructor_serializer.data]
+                    instructor_ids = [instructor.get('id', 0) for instructor in instructor_serializer.data]
                     
                     department_data['courses'] = course_ids
                     department_data['instructors'] = instructor_ids
                     department_serializer = DepartmentSerializer(data=department_data)
+                    try:
+                        department_serializer.is_valid(raise_exception=True)
+                        department_instance = department_serializer.save()
+                        return Response({'message': 'Data saved successfully.', 'department_id': department_instance.id}, status=status.HTTP_201_CREATED)
+                    except serializers.ValidationError as e:
+                        return Response({'error': 'Validation failed.', 'department_errors': e.detail},
+                    status=status.HTTP_400_BAD_REQUEST)
 
-                    if department_serializer.is_valid():
-                        department_serializer.save()
-                        return Response({'message': 'Data saved successfully.'}, status=status.HTTP_201_CREATED)
-                    else:
-                        return Response({'error': 'Validation failed.', 'department_errors': department_serializer.errors},
-                                        status=status.HTTP_400_BAD_REQUEST)
-                    
                 else:
                     return Response({
                         'error': 'Validation failed.',
-                        'department_errors': department_serializer.errors,
-                        'course_errors': course_serializer.errors,
-                        'instructor_errors': instructor_serializer.errors
+                        'course_errors': 'course_serializer.errors',
+                        'instructor_errors': 'instructor_serializer.errors'
                     }, status=status.HTTP_400_BAD_REQUEST)
         
         except Exception as e:
