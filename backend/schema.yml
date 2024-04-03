@@ -1,0 +1,773 @@
+openapi: 3.0.3
+info:
+  title: Class Scheduling App
+  version: 1.0.0
+  description: API for Class Scheduling App
+paths:
+  /api/departments_config/course/{id}/:
+    get:
+      operationId: departments_config_course_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+  /api/departments_config/course/{id}/delete/:
+    delete:
+      operationId: departments_config_course_delete_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/departments_config/course/{id}/update/:
+    put:
+      operationId: departments_config_course_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Course'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    patch:
+      operationId: departments_config_course_update_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+  /api/departments_config/courses/:
+    get:
+      operationId: departments_config_courses_list
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+          description: ''
+    post:
+      operationId: departments_config_courses_create
+      tags:
+      - departments_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Course'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+  /api/departments_config/department/{id}/:
+    get:
+      operationId: departments_config_department_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+  /api/departments_config/department/{id}/delete/:
+    delete:
+      operationId: departments_config_department_delete_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/departments_config/department/{id}/update/:
+    put:
+      operationId: departments_config_department_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Department'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+    patch:
+      operationId: departments_config_department_update_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDepartment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDepartment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDepartment'
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+  /api/departments_config/departments_data/:
+    get:
+      operationId: departments_config_departments_data_retrieve
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: departments_config_departments_data_create
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/departments_config/instructor/{id}/:
+    get:
+      operationId: departments_config_instructor_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instructor'
+          description: ''
+  /api/departments_config/instructor/{id}/delete/:
+    delete:
+      operationId: departments_config_instructor_delete_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/departments_config/instructor/{id}/update/:
+    put:
+      operationId: departments_config_instructor_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Instructor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Instructor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Instructor'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instructor'
+          description: ''
+    patch:
+      operationId: departments_config_instructor_update_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - departments_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedInstructor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedInstructor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedInstructor'
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instructor'
+          description: ''
+  /api/departments_config/instructors/:
+    get:
+      operationId: departments_config_instructors_list
+      tags:
+      - departments_config
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Instructor'
+          description: ''
+    post:
+      operationId: departments_config_instructors_create
+      tags:
+      - departments_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Instructor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Instructor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Instructor'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instructor'
+          description: ''
+  /api/schedule/{id}/:
+    get:
+      operationId: schedule_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - schedule
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+          description: ''
+  /api/schedule/{id}/delete/:
+    delete:
+      operationId: schedule_delete_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - schedule
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/schedule/{id}/update/:
+    put:
+      operationId: schedule_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - schedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+          description: ''
+    patch:
+      operationId: schedule_update_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - schedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSchedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSchedule'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSchedule'
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+          description: ''
+  /api/schedule/create:
+    post:
+      operationId: schedule_create_create
+      tags:
+      - schedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+          description: ''
+  /api/schedule/list:
+    get:
+      operationId: schedule_list_list
+      tags:
+      - schedule
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Schedule'
+          description: ''
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        credit_hour:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - id
+      - name
+    DayEnum:
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      type: string
+      description: |-
+        * `MONDAY` - Monday
+        * `TUESDAY` - Tuesday
+        * `WEDNESDAY` - Wednesday
+        * `THURSDAY` - Thursday
+        * `FRIDAY` - Friday
+        * `SATURDAY` - Saturday
+    Department:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        courses:
+          type: array
+          items:
+            type: integer
+        instructors:
+          type: array
+          items:
+            type: integer
+        assigned_days:
+          type: array
+          items:
+            type: string
+            maxLength: 15
+        rooms:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        morning_start_time:
+          type: string
+          format: time
+        morning_end_time:
+          type: string
+          format: time
+        afternoon_start_time:
+          type: string
+          format: time
+        afternoon_end_time:
+          type: string
+          format: time
+      required:
+      - courses
+      - instructors
+      - name
+    Instructor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+      required:
+      - id
+      - name
+    PatchedCourse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        credit_hour:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+    PatchedDepartment:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        courses:
+          type: array
+          items:
+            type: integer
+        instructors:
+          type: array
+          items:
+            type: integer
+        assigned_days:
+          type: array
+          items:
+            type: string
+            maxLength: 15
+        rooms:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        morning_start_time:
+          type: string
+          format: time
+        morning_end_time:
+          type: string
+          format: time
+        afternoon_start_time:
+          type: string
+          format: time
+        afternoon_end_time:
+          type: string
+          format: time
+    PatchedInstructor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+    PatchedSchedule:
+      type: object
+      properties:
+        department:
+          type: integer
+        program:
+          $ref: '#/components/schemas/ProgramEnum'
+        course:
+          type: integer
+        instructor:
+          type: integer
+        day:
+          $ref: '#/components/schemas/DayEnum'
+        room:
+          type: string
+          maxLength: 255
+        start_time:
+          type: string
+          format: time
+        end_time:
+          type: string
+          format: time
+    ProgramEnum:
+      enum:
+      - LECTURE
+      - BREAK
+      type: string
+      description: |-
+        * `LECTURE` - Lecture
+        * `BREAK` - Break
+    Schedule:
+      type: object
+      properties:
+        department:
+          type: integer
+        program:
+          $ref: '#/components/schemas/ProgramEnum'
+        course:
+          type: integer
+        instructor:
+          type: integer
+        day:
+          $ref: '#/components/schemas/DayEnum'
+        room:
+          type: string
+          maxLength: 255
+        start_time:
+          type: string
+          format: time
+        end_time:
+          type: string
+          format: time
+      required:
+      - course
+      - day
+      - department
+      - instructor
+      - program
+      - room
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

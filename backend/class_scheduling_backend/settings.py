@@ -49,10 +49,12 @@ INSTALLED_APPS = [
     # 3rd party
     'corsheaders', 
     'rest_framework',
+    'drf_spectacular',
 
     # project Apps
     'departments_config',
     'scheduling',
+    'schedule_generator',
 ]
 
 MIDDLEWARE = [
@@ -102,14 +104,26 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'class_scheduling_db',
-        'USER': 'postgres',
+        'USER': 'emran',
         'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '',
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Class Scheduling App',
+    'DESCRIPTION': 'API for Class Scheduling App',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
