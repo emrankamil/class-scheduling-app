@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'departments_config',
     'scheduling',
     'schedule_generator',
+    'scheduling_config',
 ]
 
 MIDDLEWARE = [
