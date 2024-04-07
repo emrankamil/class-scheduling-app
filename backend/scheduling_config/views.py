@@ -30,28 +30,27 @@ class SchedulingDataAPIView(viewsets.ModelViewSet):
             - If the JSON data format is invalid.
             - If the duration or frequency for a course is not an integer.
         Query Parameters:
-        - 'department_id' (optional): Filter scheduling data by a specific department ID. Example: 'department_id=123'.
+        - 'id' (optional): Filter scheduling data by a specific department ID. Example: 'id=123'.
         - 'year' (optional): Filter scheduling data by a specific year. Example: 'year=2021'.
         - 'batch' (optional): Filter scheduling data by a specific batch. Example: 'batch=3'.
 
         Example:
         - GET /api/scheduling_config/scheduling_data/
         This will return a list of all the available scheduling data.
-        - GET /api/scheduling_config/scheduling_data/?department_id=123
+        - GET /api/scheduling_config/scheduling_data/?id=123
         This will return details of the department year with ID 123.
-
         """
-        department_id = request.query_params.get('department_id')
+        id = request.query_params.get('id')
         year = request.query_params.get('year')
         batch = request.query_params.get('batch')
+        with_possible_durations = request.query_params.get('with_possible_durations')==True
 
-        if department_id:
-            
-            # Attempt to filter scheduling data by department_id.
+        if id:
+            # Attempt to filter scheduling data by id.
             try:
-                self.queryset = self.queryset.filter(id=department_id)
+                self.queryset = self.queryset.filter(id=id)
                 if not self.queryset.exists():
-                    raise ValidationError(detail=f'Department with id {department_id} not found')
+                    raise ValidationError(detail=f'Department with id {id} not found')
             except ValueError as exc:
                 raise ValidationError(detail='Incorrect department ID format.') from exc
         
@@ -72,5 +71,5 @@ class SchedulingDataAPIView(viewsets.ModelViewSet):
             except ValueError as exc:
                 raise ValidationError(detail='Incorrect batch format.') from exc
                 
-        serializer = SchedulingDataSerializer(self.queryset, many=True)
+        serializer = SchedulingDataSerializer(self.queryset, many=True, context={'with_possible_durations': with_possible_durations})
         return Response(serializer.data)

@@ -3,18 +3,14 @@ from datetime import time
 from django.db import models
 from departments_config.models import Course
 from departments_config.models import Instructor
-from departments_config.models import Department
+from departments_config.models import Room
+from scheduling_config.models import SchedulingData
 
-class Schedule(models.Model):
+class ScheduleEntry(models.Model):
 
     """
     A single row in schedule table.
     """
-
-    PROGRAM_CHOICES = [
-        ('LECTURE', 'Lecture'),
-        ('BREAK', 'Break'),
-    ]
     DAY_CHOICES = [
         ('MONDAY', 'Monday'),
         ('TUESDAY', 'Tuesday'),
@@ -24,14 +20,13 @@ class Schedule(models.Model):
         ('SATURDAY', 'Saturday'),
     ]
 
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='schedules')
-    program = models.CharField(max_length=20, choices=PROGRAM_CHOICES)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    parent_schedule = models.ForeignKey(SchedulingData, on_delete=models.CASCADE, related_name='related_schedules')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='related_schedules')
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='related_schedules')
     day = models.CharField(max_length=20, choices=DAY_CHOICES)
-    room = models.CharField(max_length=255)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='related_schedules')
     start_time = models.TimeField(default=time(0, 0))
     end_time = models.TimeField(default=time(0, 0))
 
     def __str__(self):
-        return str(self.course)
+        return f'{self.course.name} - {self.day} - {self.start_time} - {self.end_time} - {self.room.name}'

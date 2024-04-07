@@ -1,11 +1,8 @@
-from . import views
 from django.urls import path
+from rest_framework.routers import DefaultRouter
+from . import views
 
+route = DefaultRouter()
+route.register('', views.ScheduleApiView, basename='schedule')
 urlpatterns = [
-    path('list', views.schedule_list_view),
-    path('create', views.schedule_create_view),
-    path('<int:pk>/', views.schedule_detail_view),
-    path('<int:pk>/update/', views.schedule_update_view),
-    path('<int:pk>/delete/', views.schedule_destroy_view),
-
-]
+] + route.urls
