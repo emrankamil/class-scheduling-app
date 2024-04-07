@@ -22,7 +22,6 @@ class SchedulingDataSerializer(serializers.ModelSerializer):
         deparment_data = Department.objects.get(id=obj.department.id)
 
         morning_start_time = deparment_data.morning_start_time
-        print(type(morning_start_time))
         morning_end_time = deparment_data.morning_end_time
         afternoon_start_time = deparment_data.afternoon_start_time
         afternoon_end_time = deparment_data.afternoon_end_time
@@ -36,16 +35,17 @@ class SchedulingDataSerializer(serializers.ModelSerializer):
         for course in scheduling_courses:
             for duration in course.time_durations:
                 distinct_time_durations.add(duration)
-        
-        # return list(distinct_time_durations)
 
         start_times = defaultdict(set)
 
         for duration in distinct_time_durations:
             for i in range(morning_duration_minutes//int(duration)):
                 timechange = datetime.timedelta(minutes=i*int(duration))
-                start_times[duration].add(morning_start_time + timechange)
+                time = (datetime.datetime.combine(datetime.date(1,1,1),morning_start_time) + timechange).time()
+                start_times[duration].add(time)
             for i in range(afternoon_duration_minutes//int(duration)):
-                start_times[duration].add(afternoon_start_time + datetime.timedelta(minutes=i*int(duration)))
-
+                timechange = datetime.timedelta(minutes=i*int(duration))
+                time = (datetime.datetime.combine(datetime.date(1,1,1),afternoon_start_time) + timechange).time()
+                start_times[duration].add(time)
+                
         return start_times
