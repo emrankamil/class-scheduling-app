@@ -38,7 +38,6 @@ class ScheduleEntrySerializer(serializers.ModelSerializer):
         )
 
         if filtered_schedules.exists():
-            print(filtered_schedules)
             for schedule in filtered_schedules:
                 if schedule.room == room:
                     raise serializers.ValidationError("Schedule overlaps with an existing one (the room is not availabe).")
