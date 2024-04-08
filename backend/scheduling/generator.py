@@ -1,51 +1,67 @@
-data = [
-    {
-      "id": 1,
-      "scheduling_courses": [
-          {
-              "id": 2,
-              "time_durations": ["120","120", "240"],
-              "scheduling_data": 1,
-              "course": 1,
-              "instructors": [
-                  1,
-                  2,
-                  3,
-                  4
-              ]
-          }
-      ],
-      "year": 2015,
-      "batch": 2,
-      "number_of_sections": 3,
-      "department": 1,
-      "rooms": [
-          1,
-          2,
-      ]
-  }
-][0]
-
-# courses = {
-#     'course1':{
-#         'instructors': ['instr1', 'instr2', 'instr3'],
-#         'durations': [60, 120, 240]
-#         },
-#     'course2':{
-#         'instructors': ['instr4', 'instr5', 'instr6'],
-#         'durations': [120, 240]
-#         },
-#     'course3':{
-#         'instructors': ['instr7', 'instr8', 'instr9'],
-#         'durations': [60, 240]
-#         },
-#     }
+data = {
+        "id": 4,
+        "department": 4,
+        "year": 2015,
+        "batch": 11,
+        "number_of_sections": 5,
+        "rooms": [
+            3,
+            5,
+            6,
+            7
+        ],
+        "scheduling_courses": [
+            {
+                "id": 5,
+                "time_durations": {
+                    "45": 8
+                },
+                "scheduling_data": 4,
+                "course": 5,
+                "instructors": [
+                    5,
+                    6
+                ]
+            },
+            {
+                "id": 6,
+                "time_durations": {
+                    "45": 7
+                },
+                "scheduling_data": 4,
+                "course": 6,
+                "instructors": [
+                    7
+                ]
+            },
+            {
+                "id": 7,
+                "time_durations": {
+                    "45": 7
+                },
+                "scheduling_data": 4,
+                "course": 7,
+                "instructors": [
+                    5
+                ]
+            }
+        ],
+        "possible_durations": {
+            "45": [
+                "14:00:00",
+                "10:45:00",
+                "09:15:00",
+                "14:45:00",
+                "11:30:00",
+                "08:30:00",
+                "10:00:00"
+            ]
+        }
+    }
 
 days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']  
-# rooms = [201, 202, 203, 204, 205, 206]
 
 output = []
-
 
 def dfs(variable, value, result):
     if variable == 'course':

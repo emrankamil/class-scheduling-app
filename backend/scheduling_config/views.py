@@ -43,7 +43,6 @@ class SchedulingDataAPIView(viewsets.ModelViewSet):
         id = request.query_params.get('id')
         year = request.query_params.get('year')
         batch = request.query_params.get('batch')
-        with_possible_durations = request.query_params.get('with_possible_durations')==True
 
         if id:
             # Attempt to filter scheduling data by id.
@@ -71,5 +70,5 @@ class SchedulingDataAPIView(viewsets.ModelViewSet):
             except ValueError as exc:
                 raise ValidationError(detail='Incorrect batch format.') from exc
                 
-        serializer = SchedulingDataSerializer(self.queryset, many=True, context={'with_possible_durations': with_possible_durations})
+        serializer = SchedulingDataSerializer(self.queryset, many=True)
         return Response(serializer.data)
