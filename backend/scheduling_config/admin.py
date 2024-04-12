@@ -12,3 +12,4 @@ class SchedulingCourseAdmin(admin.ModelAdmin):
 
 admin.site.register(models.SchedulingData, SchedulingDataAdmin)
 admin.site.register(models.SchedulingCourse, SchedulingCourseAdmin)
+admin.site.register(models.Section)

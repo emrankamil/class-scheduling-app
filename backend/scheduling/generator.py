@@ -1,8 +1,10 @@
 from collections import defaultdict
+import random
 from scheduling.serializers import ScheduleEntrySerializer
 from scheduling_config.models import SchedulingData
 from scheduling_config.serializers import SchedulingDataSerializer
 import datetime
+
 # data = {
 #         "id": 4,
 #         "department": 4,
@@ -10,61 +12,116 @@ import datetime
 #         "batch": 11,
 #         "number_of_sections": 5,
 #         "rooms": [
-#             3,
 #             5,
 #             6,
 #             7
 #         ],
 #         "scheduling_courses": [
 #             {
-#                 "id": 5,
-#                 "time_durations": {
-#                     "45": 8
-#                 },
-#                 "scheduling_data": 4,
-#                 "course": 5,
-#                 "instructors": [
-#                     5,
-#                     6
-#                 ]
-#             },
-#             {
-#                 "id": 6,
-#                 "time_durations": {
-#                     "45": 7
-#                 },
-#                 "scheduling_data": 4,
-#                 "course": 6,
-#                 "instructors": [
-#                     7
-#                 ]
-#             },
-#             {
-#                 "id": 7,
-#                 "time_durations": {
-#                     "45": 7
-#                 },
+#                 "id": 8,
+#                 "time_durations": [
+#                     '45',
+#                     '45',
+#                     '45',
+#                     '45',
+#                     '45',
+#                     '45',
+#                     '45'
+#                 ],
 #                 "scheduling_data": 4,
 #                 "course": 7,
 #                 "instructors": [
 #                     5
 #                 ]
+#             },
+#             {
+#                 "id": 9,
+#                 "time_durations": [
+#                     "45",
+#                     "45",
+#                     "45",
+#                     "45",
+#                     "45",
+#                     "45",
+#                     "45",
+#                     "45"
+#                 ],
+#                 "scheduling_data": 4,
+#                 "course": 5,
+#                 "instructors": [
+#                     6,
+#                     7
+#                 ]
+#             },
+#             {
+#                 "id": 10,
+#                 "time_durations": [
+#                     "45",
+#                     "45",
+#                     "45",
+#                     "45",
+#                     "45",
+#                     "45"
+#                 ],
+#                 "scheduling_data": 4,
+#                 "course": 6,
+#                 "instructors": [
+#                     7
+#                 ]
 #             }
 #         ],
 #         "possible_durations": {
 #             "45": [
-#                 "14:00:00",
-#                 "10:45:00",
-#                 "09:15:00",
-#                 "14:45:00",
-#                 "11:30:00",
-#                 "08:30:00",
-#                 "10:00:00"
+#                 datetime.time(14, 0, 0),
+#                 datetime.time(10, 45, 0),
+#                 datetime.time(9, 15, 0),
+#                 datetime.time(14, 45, 0),
+#                 datetime.time(11, 30, 0),
+#                 datetime.time(8, 30, 0),
+#                 datetime.time(10, 0, 0)
 #             ]
 #         }
-# }
+#     }
 # days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']  
-
+# {'id': 4,
+#   'department': 4, 
+#   'year': 2015, 
+#   'batch': 11, 
+#   'number_of_sections': 5,
+#     'rooms': [5, 6, 7], 
+#     'scheduling_courses': [
+#         {
+#             'id': 8,
+#               'time_durations': [45, 45, 45, 45, 45, 45, 45], 
+#               'scheduling_data': 4, 'course': 7, 
+#               'instructors': [5]
+#               }, 
+#               {
+#                   'id': 9, 
+#                   'time_durations': [45, 45, 45, 45, 45, 45, 45, 45], 
+#                   'scheduling_data': 4, 
+#                   'course': 5, 
+#                   'instructors': [6, 7]
+#                   }, 
+#                   {
+#                     'id': 10,
+#                    'time_durations': [45, 45, 45, 45, 45, 45], 
+#                   'scheduling_data': 4,
+#                    'course': 6,
+#                    'instructors': [7]
+#                   }
+#                   ], 
+#                   'possible_durations': defaultdict(<class 'set'>, {
+#                       45: {
+#                         datetime.time(8, 30),
+#                        datetime.time(11, 30), 
+#                       datetime.time(9, 15),
+#                        datetime.time(10, 45), 
+#                       datetime.time(14, 0),
+#                        datetime.time(14, 45), 
+#                       datetime.time(10, 0)
+#                       }
+#                       })}
 
 def generate_schedule(scheduling_data_id, days):
 
@@ -72,8 +129,8 @@ def generate_schedule(scheduling_data_id, days):
 
     serializer = SchedulingDataSerializer(SchedulingData.objects.get(id=scheduling_data_id))
     data = serializer.data
-    # print(data)
-    # print(data['possible_durations'])
+    print(data)
+
 
     def verify_and_save(schedule):
         timechange = datetime.timedelta(minutes=int(schedule[0]))
@@ -81,6 +138,7 @@ def generate_schedule(scheduling_data_id, days):
                 
         schedule = {
                     'parent_schedule': data['id'],
+                    'section': data['section'],
                     'course': schedule[1],
                     'instructor': schedule[4],
                     'day': schedule[2],
@@ -88,21 +146,26 @@ def generate_schedule(scheduling_data_id, days):
                     'start_time': schedule[5],
                     'end_time': end_time
                 }
+        
         new_entry = ScheduleEntrySerializer(data=schedule)
+        
         if new_entry.is_valid():
-            response = new_entry.save()
-            print(response)
-
-
+            new_entry.save()
+            return True
+        else:
+            print(new_entry.data)
+            print(new_entry.errors)
    
     def dfs(variable, value, result):
+        if found[0]:
+            return
         if variable == 'course':
             for day in days:
                 dfs('day', day, result)
         if variable == 'day':
             result.append(value)
             for room in data['rooms']:
-                dfs('room', room, result)
+                dfs('room', room, result)  
             result.pop()
         if variable == 'room':
             result.append(value)
@@ -113,20 +176,21 @@ def generate_schedule(scheduling_data_id, days):
             result.append(value)
             for time in data['possible_durations'][result[0]]:
                 result.append(time)
-                verify_and_save(result)
-                output.append(result[:])
+                count[0] += 1
+                if verify_and_save(result):
+                    output.append(result[:])
+                    found[0] = True
+                    return
                 result.pop()
             result.pop()
             
-
+    count = [0]
     for scheduling_course in data['scheduling_courses']:
         for duration in scheduling_course['time_durations']:
-            dfs('course', None, [duration, scheduling_course['course']])
-    print(output)
-    return output
-    # print('duration' + ' ' + 'course' + ' ' + 'day' + ' ' + 'room' + ' ' + 'instructor' )
-    # for _ in range(10):
-    #     print(output[_])
-        
+            found = [False]
+            random.shuffle(days)
+            random.shuffle(data['rooms'])
+            random.shuffle(scheduling_course['instructors'])
 
-        
+            dfs('course', None, [duration, scheduling_course['course']])
+    print(count)

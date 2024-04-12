@@ -35,27 +35,10 @@ class ScheduleApiView(viewsets.ModelViewSet):
         Example:
         
         """
-        
-
-        # data = {
-        #     'parent_schedule':3,
-        #     'course':4,
-        #     'instructor':4,
-        #     'day':'MONDAY',
-        #     'room':4,
-        #     'start_time':'08:00:00',
-        #     'end_time':'09:00:00',
-        # }
-
         scheduling_id = request.query_params.get('scheduling_id')
-        
-        generate_schedule(4, ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'])
-        # new_entry = ScheduleEntrySerializer(data=data)
-        # if new_entry.is_valid():
-        #     new_entry.save()
-        # else:
-        #     print(new_entry.errors)
-        #     raise ValidationError(new_entry.errors)
+        if scheduling_id:
+            generate_schedule(scheduling_id, ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'])
+            self.queryset = ScheduleEntry.objects.filter(parent_schedule=scheduling_id)
 
         serializer = ScheduleEntrySerializer(self.queryset, many=True, )
         return Response(serializer.data)

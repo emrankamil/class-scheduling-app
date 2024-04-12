@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ScheduleEntry
+from .models import ScheduleEntry, Section
 
 class ScheduleEntryAdmin(admin.ModelAdmin):
     list_display = ('parent_schedule', 'course', 'instructor', 'day', 'room', 'start_time', 'end_time')
