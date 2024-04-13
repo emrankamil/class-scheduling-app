@@ -4,14 +4,14 @@ from django.db.models import Q
 from .models import ScheduleEntry
 
 class ScheduleEntrySerializer(serializers.ModelSerializer):
-    sections = serializers.StringRelatedField(many=True, read_only=True)
+    
     class Meta:
         model = ScheduleEntry
-        fields = 'parent_schedule', 'course', 'instructor', 'day', 'room', 'start_time', 'end_time'
+        fields = 'parent_schedule', 'course','temp_section', 'instructor', 'day', 'room', 'start_time', 'end_time'
 
     def validate(self, attrs):
         parent_schedule = attrs.get('parent_schedule')
-        section = attrs.get('section')
+        section = attrs.get('temp_section')
         course = attrs.get('course')
         instructor = attrs.get('instructor')
         room = attrs.get('room')
@@ -35,7 +35,7 @@ class ScheduleEntrySerializer(serializers.ModelSerializer):
 
         if filtered_schedules.exists():
             for schedule in filtered_schedules:
-                if schedule.section == section:
+                if schedule.temp_section == section:
                     raise serializers.ValidationError("Schedule overlaps with an existing one (the time is not availabe).")
                 if schedule.room == room:
                     raise serializers.ValidationError(f"Schedule overlaps with an existing one (the room {room} is not availabe).")

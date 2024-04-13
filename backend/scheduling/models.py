@@ -19,9 +19,10 @@ class ScheduleEntry(models.Model):
         ('FRIDAY', 'Friday'),
         ('SATURDAY', 'Saturday'),
     ]
-
+    
     parent_schedule = models.ForeignKey(SchedulingData, on_delete=models.CASCADE, related_name='related_schedules')
-    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='related_schedules')
+    temp_section = models.CharField(max_length=100)
+    # section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='related_schedules')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='related_schedules')
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='related_schedules')
     day = models.CharField(max_length=20, choices=DAY_CHOICES)
@@ -30,5 +31,5 @@ class ScheduleEntry(models.Model):
     end_time = models.TimeField(default=time(0, 0))
 
     def __str__(self):
-        return f'{self.course.name} - {self.section} - {self.day} - {self.start_time} - {self.end_time} - {self.room.name}'
+        return f'{self.course.name} - {self.temp_section} - {self.day} - {self.start_time} - {self.end_time} - {self.room.name}'
 

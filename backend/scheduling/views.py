@@ -1,14 +1,8 @@
 
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
-from django.forms.models import model_to_dict
-
-from departments_config.models import Course, Instructor, Room
-from scheduling_config.models import SchedulingData
 from .models import ScheduleEntry
 from .serializers import ScheduleEntrySerializer
-from scheduling_config.serializers import SchedulingDataSerializer
 from .generator import generate_schedule
 
 class ScheduleApiView(viewsets.ModelViewSet):

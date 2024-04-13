@@ -4,6 +4,7 @@ from rest_framework import serializers
 from . import models
 from departments_config.models import Department
 
+
 class SchedulingCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SchedulingCourse
