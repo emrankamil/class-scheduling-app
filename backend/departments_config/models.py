@@ -20,7 +20,6 @@ class Instructor(models.Model):
 
 class Room(models.Model):
     name=models.CharField(max_length=255)
-    reserved = models.BooleanField(default=False)
     department = models.ForeignKey('Department', on_delete=models.CASCADE, related_name='department_rooms')
 
     def __str__(self):

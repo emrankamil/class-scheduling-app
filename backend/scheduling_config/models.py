@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
-from .validators import validate_time_durations_data
-from departments_config.models import Department, Course, Instructor, Room
-
+from departments_config.models import Department, Course, Instructor, Room, ReservedRoom
+    
 class SchedulingCourse(models.Model):
     scheduling_data = models.ForeignKey('SchedulingData', on_delete=models.CASCADE, related_name='scheduling_courses', related_query_name='all_courses')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='scheduling_courses')
     instructors = models.ManyToManyField(Instructor, related_name='scheduling_courses')
+    # section_instructors = models.ManyToManyField('SchedulingInstructor', related_name='scheduling_courses')
     rooms = models.ManyToManyField(Room, related_name='scheduling_courses')
     time_durations = ArrayField(models.IntegerField(), default=list)
     
@@ -18,7 +18,15 @@ class Section(models.Model):
     scheduling_data = models.ForeignKey('SchedulingData', on_delete=models.CASCADE, related_name='sections')
 
     def __str__(self):
-        return str(self.name)
+        return f"{str(self.scheduling_data)} - {str(self.name)}"
+    
+class SchedulingInstructor(models.Model):
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='scheduling_instructors')
+    sections = models.ManyToManyField(Section, related_name='scheduling_instructors')
+    scheduling_course= models.ForeignKey('SchedulingCourse', on_delete=models.CASCADE, related_name='scheduling_instructors')
+
+    def __str__(self):
+        return f"{str(self.instructor)} - {str(self.scheduling_course)}"
     
 class SchedulingData(models.Model):
 

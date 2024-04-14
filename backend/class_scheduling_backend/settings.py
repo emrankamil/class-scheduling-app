@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     # project Apps
     'departments_config',
     'scheduling',
-    'schedule_generator',
     'scheduling_config',
 ]
 

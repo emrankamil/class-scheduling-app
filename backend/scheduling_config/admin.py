@@ -10,6 +10,12 @@ class SchedulingCourseAdmin(admin.ModelAdmin):
     search_fields = ('course', 'id', 'scheduling_data')
     list_filter = ('course', 'id', 'scheduling_data')
 
+class SchedulingInstructorAdmin(admin.ModelAdmin):
+    list_display = ('instructor', 'id', 'scheduling_course')
+    search_fields = ('instructor', 'id', 'scheduling_course')
+    list_filter = ('instructor', 'id', 'scheduling_course')
+
 admin.site.register(models.SchedulingData, SchedulingDataAdmin)
 admin.site.register(models.SchedulingCourse, SchedulingCourseAdmin)
+admin.site.register(models.SchedulingInstructor, SchedulingInstructorAdmin)
 admin.site.register(models.Section)

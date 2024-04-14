@@ -12,7 +12,7 @@ class InstructorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReservedRoomSerializer(serializers.ModelSerializer):
-    
+
     def validate(self, data):
         if data['reserved_for'] == data['room'].department:
             raise serializers.ValidationError("A room cannot be reserved for its owning department.")
@@ -26,7 +26,7 @@ class RoomSerializer(serializers.ModelSerializer):
     reservations = ReservedRoomSerializer(many=True,read_only=True,)
     class Meta:
         model = models.Room
-        fields = 'name', 'reserved', 'reservations'
+        fields = "__all__"
 
 class DepartmentSerializer(serializers.ModelSerializer):
     department_courses = CourseSerializer(many=True,read_only=True,)
